@@ -15,7 +15,7 @@ Una interfaz web permite realizar consultas fácilmente desde un navegador.
 
 ## 🚀 Cómo usar el proyecto
 
-### 1. Clona el repositorio
+### Clona el repositorio
 git clone https://github.com/forgar18/Red-Criminal-Swi-Prolog-con-front-end.git
 
 cd tu_repositorio
