@@ -49,8 +49,12 @@ open index.html           # En macOS
 
 📂 Estructura del proyecto
 proyecto/
-├── fonts/
-│   ├── amerita.otf
-│   ├── apple.ttf
-│   └── glit.otf
-└── index.html
+│
+├── index.html          # Interfaz gráfica principal
+├── server.pl           # Lógica del servidor y base de datos Prolog
+│
+└── fonts/              # Fuentes personalizadas para el diseño
+    ├── amerita.otf
+    ├── apple.ttf
+    └── glit.otf
+
