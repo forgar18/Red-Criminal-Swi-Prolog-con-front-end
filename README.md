@@ -47,14 +47,15 @@ open index.html           # En macOS
 
 🔄 Comunicación entre front-end y Prolog a través de peticiones HTTP
 
-📂 Estructura del proyecto
+## 📁 Estructura del proyecto
+
 proyecto/
 │
-├── index.html          # Interfaz gráfica principal
-├── server.pl           # Lógica del servidor y base de datos Prolog
+├── index.html # Interfaz gráfica principal
+├── server.pl # Lógica del servidor y base de datos Prolog
 │
-└── fonts/              # Fuentes personalizadas para el diseño
-    ├── amerita.otf
-    ├── apple.ttf
-    └── glit.otf
+└── fonts/ # Fuentes personalizadas para el diseño
+├── amerita.otf
+├── apple.ttf
+└── glit.otf
 
