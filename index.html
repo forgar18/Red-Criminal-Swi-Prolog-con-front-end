@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Red Criminal (Prolog)</title>
+  <style>
+    @font-face {
+      font-family: 'Glit';
+      src: url('fonts/glit.otf') format('truetype');
+    }
+
+    @font-face {
+      font-family: 'Amerita';
+      src: url('fonts/amerita.ttf') format('truetype');
+    }
+
+    body {
+      font-family: 'Glit', sans-serif;
+      padding: 20px;
+      background-color: #0D1B2A; /* azul oscuro */
+      color: white;
+    }
+
+    h1, h2 {
+      color: white;
+    }
+
+    button {
+      font-family: 'Amerita', sans-serif;
+      margin: 5px;
+      padding: 10px 15px;
+      background-color: #1B263B; /* azul más claro */
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #415A77;
+    }
+
+    table {
+      font-family: 'Amerita', sans-serif;
+      margin-top: 20px;
+      border-collapse: collapse;
+      width: 100%;
+      background-color: #1B263B; /* fondo tabla */
+      color: white;
+    }
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #778DA9;
+      text-align: left;
+    }
+
+    th {
+      background-color: #415A77;
+    }
+
+    .error {
+      color: #FF6B6B;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Consultas a Red Criminal</h1>
+
+  <div>
+    <button onclick="hacerConsulta('mismo_jefe')">1. Mismo jefe</button>
+    <button onclick="hacerConsulta('mismo_cartel')">2. Mismo cartel</button>
+    <button onclick="hacerConsulta('subordinados_juan')">3. Subordinados de Juan</button>
+    <button onclick="hacerConsulta('peligrosos')">4. Peligrosos</button>
+    <button onclick="hacerConsulta('conexion_juan')">5. Conectados con Juan</button>
+    <button onclick="hacerConsulta('jefes_sin_crimen')">6. Jefes sin crimen</button>
+    <button onclick="hacerConsulta('complices_multiples')">7. Más de un cómplice</button>
+    <button onclick="hacerConsulta('multiples_crimenes')">8. Más de un tipo de crimen</button>
+    <button onclick="hacerConsulta('sospechosos')">9. Sospechosos</button>
+    <button onclick="hacerConsulta('no_arrestados')">10. No arrestados</button>
+    <button onclick="hacerConsulta('rivales')">11. Rivales en carteles</button>
+    <button onclick="hacerConsulta('subordinados_pedro')">12. Subordinados de Pedro</button>
+    <button onclick="hacerConsulta('lista_jefes')">13. Lista de jefes</button>
+  </div>
+
+  <div id="resultado"></div>
+
+  <script>
+    async function hacerConsulta(endpoint) {
+      const resultado = document.getElementById("resultado");
+      resultado.innerHTML = "<p>⏳ Cargando...</p>";
+
+      try {
+        const response = await fetch(`http://127.0.0.1:8080/${endpoint}`);
+        if (!response.ok) {
+          throw new Error(`Error HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+        resultado.innerHTML = "";
+
+        if (Array.isArray(data)) {
+          if (data.length === 0) {
+            resultado.innerHTML = "<p>No se encontraron resultados.</p>";
+            return;
+          }
+
+          let tabla = "<table><thead><tr>";
+
+          if (endpoint === "mismo_jefe" || endpoint === "rivales") {
+            tabla += "<th>Miembros</th></tr></thead><tbody>";
+
+            const nombresUnicos = new Set();
+            data.forEach(par => {
+              par.forEach(nombre => nombresUnicos.add(nombre));
+            });
+
+            [...nombresUnicos].forEach(nombre => {
+              tabla += `<tr><td>${nombre}</td></tr>`;
+            });
+          }
+
+          else if (endpoint === "mismo_cartel") {
+            tabla += "<th>Cartel del Norte</th><th>Cartel del Sur</th></tr></thead><tbody>";
+            data.forEach(par => {
+              tabla += `<tr><td>${par[0]}</td><td>${par[1]}</td></tr>`;
+            });
+          }
+
+          else if (Array.isArray(data[0])) {
+            tabla += "<th>Columna 1</th><th>Columna 2</th></tr></thead><tbody>";
+            data.forEach(par => {
+              tabla += `<tr><td>${par[0]}</td><td>${par[1]}</td></tr>`;
+            });
+          }
+
+          else {
+            tabla += "<th>Resultado</th></tr></thead><tbody>";
+            data.forEach(item => {
+              tabla += `<tr><td>${item}</td></tr>`;
+            });
+          }
+
+          tabla += "</tbody></table>";
+          resultado.innerHTML = tabla;
+        } else {
+          resultado.innerHTML = `<p>${JSON.stringify(data)}</p>`;
+        }
+
+      } catch (err) {
+        resultado.innerHTML = `<p class="error">❌ Error: ${err.message}</p>`;
+        console.error("Error al hacer la consulta:", err);
+      }
+    }
+  </script>
+</body>
+</html>
