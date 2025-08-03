@@ -47,7 +47,7 @@ open index.html           # En macOS
 
 🔄 Comunicación entre front-end y Prolog a través de peticiones HTTP
 
-<pre>  📁 Estructura del proyecto
+<pre> 📁Estructura del proyecto
 ├── index.html  
 ├── server.pl 
 ├── red_criminal.pl 
